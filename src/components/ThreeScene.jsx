@@ -34,9 +34,19 @@ const ThreeScene = () => {
     };
     animate();
 
+    // Handle window resize
+    const handleResize = () => {
+      camera.aspect = mount.clientWidth / mount.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(mount.clientWidth, mount.clientHeight);
+    };
+    window.addEventListener('resize', handleResize);
+
     // Cleanup on unmount
     return () => {
+      window.removeEventListener('resize', handleResize);
       mount.removeChild(renderer.domElement);
+      renderer.dispose();
     };
   }, []);
 
